@@ -118,8 +118,8 @@ def run_baseline_and_eval(custom_map_path="custom_map.json", rl_runs: Optional[L
     print("\n=== Navigation Metrics ===")
     print(f"Reached goal (A*): {metrics['success_astar']}")
     print(f"Reached goal (RL): {metrics['success_rl']}")
-    print(f"Path length (A*): {metrics['len_astar']}")
-    print(f"Path length (RL): {metrics['len_rl']}")
+    print(f"Path length (A*): {metrics['len_astar'] - 1}")
+    print(f"Path length (RL): {metrics['len_rl'] - 1}")
     if metrics['optimality_ratio'] != float('inf'):
         print(f"Optimality ratio (RL/A*): {metrics['optimality_ratio']:.3f}")
     else:
@@ -141,10 +141,6 @@ if __name__ == "__main__":
             print("No winning_run.json found - skipping RL comparison.")
 
         astar_path, metrics = run_baseline_and_eval("custom_map.json", rl_runs=rl_runs)
-
-        if rl_runs:
-            best = best_rl_run(rl_runs, metrics.get("goal", ()))
-            print("\nBest RL path:", best)
 
     except FileNotFoundError:
         print("404: Map file not found.")
